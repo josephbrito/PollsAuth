@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/logo.png' %}"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>Flowih</title>
+  </head>
+  <body>
+    {% csrf_token %}
+    <header
+      class="header bg-black d-flex justify-content-around align-items-center"
+    >
+      <div class="logo">
+        <a href="/">
+          <img
+            src="{% static 'images/logo.png' %}"
+            alt="Logo"
+            draggable="false"
+        /></a>
+      </div>
+
+      {% if isLogged %}
+      <a class="userbox" href="{% url 'flowih:details' userlogged.username %}">
+        <i class="fa-solid fa-user"></i>{{ userlogged.username }}
+      </a>
+      <div class="logout">
+        <a
+          class="link-light link-offset-2 link-underline-opacity-0"
+          href="{% url 'flowih:logout' %}"
+          ><i class="fa-solid fa-right-from-bracket"></i>Log out</a
+        >
+      </div>
+      {% else %}
+      <nav class="nav">
+        <ul class="list d-flex gap-8">
+          <li>
+            <a
+              class="link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover"
+              href="/signin"
+              >Sign in</a
+            >
+          </li>
+          <li>
+            <a
+              class="link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover"
+              href="/signup"
+              >Sign up</a
+            >
+          </li>
+        </ul>
+      </nav>
+      {% endif %}
+      <nav class="navbar navbar-expand-lg"></nav>
+    </header>
+    <main
+      class="container d-flex align-items-center justify-content-center flex-wrap position-relative"
+    >
+      {% if userlogged %} {% if not userlogged.question_set.all %}
+      <form
+        action="{% url 'flowih:newchoice' userlogged.username %}"
+        method="POST"
+        class="d-flex flex-column align-items-center"
+      >
+        {% csrf_token %}
+        <p>you haven't posted any polls yet</p>
+        <!-- Button trigger modal -->
+        <button
+          type="button"
+          class="btn btn-dark"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  New poll
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <label for="question" class="form-label">Question</label>
+
+                <input
+                  id="question"
+                  type="text"
+                  class="form-control"
+                  name="question"
+                  required
+                />
+                <label for="choice_one" class="form-label">Choice 1</label>
+
+                <input
+                  id="choice_one"
+                  type="text"
+                  class="form-control"
+                  name="choice_one"
+                  required
+                />
+                <label for="choice_two" class="form-label">Choice 2</label>
+
+                <input
+                  id="choice_two"
+                  type="text"
+                  class="form-control"
+                  name="choice_two"
+                  required
+                />
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-danger" data-bs-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" class="btn btn-dark">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      {% else %}
+
+      <!-- Button trigger modal -->
+      <form
+        action="{% url 'flowih:newchoice' userlogged.username %}"
+        method="POST"
+        class="d-flex flex-column align-items-center"
+      >
+        {% csrf_token %}
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  New poll
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <label for="question" class="form-label">Question</label>
+
+                <input
+                  id="question"
+                  type="text"
+                  class="form-control"
+                  name="question"
+                  required
+                />
+                <label for="choice_one" class="form-label">Choice 1</label>
+
+                <input
+                  id="choice_one"
+                  type="text"
+                  class="form-control"
+                  name="choice_one"
+                  required
+                />
+                <label for="choice_two" class="form-label">Choice 2</label>
+
+                <input
+                  id="choice_two"
+                  type="text"
+                  class="form-control"
+                  name="choice_two"
+                  required
+                />
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-danger" data-bs-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" class="btn btn-dark">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <button
+        type="button"
+        class="btn-modal btn btn-dark position-absolute top-0 end-0"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <i class="fa-solid fa-plus"></i>
+      </button>
+
+      <div class="card">
+        <div class="card-header username-header">
+          @{{ userlogged.username }}
+        </div>
+        {% for question in userlogged.question_set.all %}
+        <div class="card-header">{{ question.question_text }}</div>
+        <ul class="list-group list-group-flush">
+          {% for choice in userlogged.choice_set.all %}
+          <div
+            class="alert alert-light d-flex align-items-center text-align-center"
+          >
+            <p>{{ choice.choice_text }}</p>
+          </div>
+          {% endfor %}
+        </ul>
+        {% endfor %}
+      </div>
+
+      {% endif %}{% else %}
+      <div class="d-flex flex-column align-items-center">
+        {% if error %}
+        <div class="alert alert-danger">Something went wrong</div>
+        {% endif %}
+        <p>page not found</p>
+      </div>
+
+      {% endif %}
+    </main>
+    <script
+      src="https://kit.fontawesome.com/5f166de9b4.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
